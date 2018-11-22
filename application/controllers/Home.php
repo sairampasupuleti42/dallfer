@@ -4,70 +4,100 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Home extends MY_Controller
 {
     public $header_data = array();
+    public $documents;
 
     function __construct()
     {
         parent::__construct();
         $this->load->model("DB", "api", TRUE);
+        $this->documents = $this->api->searchDocuments();
+        $this->header_data['document'] = current($this->documents);
     }
 
     public function index()
     {
         $data = array();
-        $data['about'] = $this->api->getAbout();
-        $data['post'] = $this->api->searchPosts(['offset' => '0', 'limit' => '1']);
-        $data['video_post'] = $this->api->searchPosts(['limit' => '1','post_type'=>'VIDEO']);
-        $data['recent_posts'] = $this->api->searchPosts(['offset' => '2', 'limit' => '3']);
         $this->_home('home', $data);
     }
 
-    public function about_me()
+    function about_us()
     {
         $data = array();
-        $data['about'] = $this->api->getAbout();
-        $this->_home('about', $data);
+        $this->_home('about-us');
     }
 
-    function privacy()
-    {
-        echo "Privacy & policy";
-    }
-
-    public function contact_me()
-    {
-        $this->_home('contact');
-    }
-
-    public function politics()
-    {
-        $data=array();
-        $data['bposts'] = $this->api->searchPosts(['offset' => '0', 'limit' => '3']);
-
-        $data['brtposts'] = $this->api->searchPosts(['offset' => '3', 'limit' => '2']);
-        $data['brbposts'] = $this->api->searchPosts(['offset' => '5', 'limit' => '2']);
-
-        $data['posts'] = $this->api->searchPosts(['offset' => '7', 'limit' => '8']);
-        $data['recent_posts'] = $this->api->searchPosts(['offset' => '15', 'limit' => '3']);
-        $this->_home('politics',$data);
-    }
-
-    public function article($str = '')
+    function clients()
     {
         $data = array();
-        $post = $this->api->getPostBySlug($str);
-        $this->header_data['meta'] = $post;
-        $data['post'] = $post;
-        $this->_home('article', $data);
+        $this->_home('clients');
     }
 
-    public function gallery($str = '')
+    function gallery()
     {
         $data = array();
-        if (!empty($str)) {
-            $data['gallery'] = $this->api->getGalleryBySlug($str);
-        } else {
-            $data['galleries'] = $this->api->searchGallery();
+        $this->_home('gallery/index', $data);
+    }
+
+    function upcoming_events()
+    {
+        $data = array();
+        $this->_home('projects/upcoming', $data);
+    }
+
+    function previous_events()
+    {
+        $data = array();
+        $this->_home('projects/previous', $data);
+    }
+
+
+    function corporate_events()
+    {
+        $data = array();
+        $this->_home('events/corporate-events');
+    }
+
+    function customized_events()
+    {
+        $data = array();
+        $this->_home('events/customized-events', $data);
+    }
+
+    function indoor_events()
+    {
+        $data = array();
+        $this->_home('events/indoor-events', $data);
+    }
+
+    function outdoor_events()
+    {
+        $data = array();
+        $this->_home('events/outdoor-events', $data);
+    }
+
+    function promotional_events()
+    {
+        $data = array();
+        $this->_home('events/promotional-events', $data);
+    }
+
+    function water_float_events()
+    {
+        $data = array();
+        $this->_home('events/water-float-events', $data);
+    }
+
+    function contact_us()
+    {
+        $data = array();
+        if (!empty($_POST)) {
+            $pdata['contact_request_name'] = $_POST['name'];
+            $pdata['contact_request_email'] = $_POST['email'];
+            $pdata['contact_request_message'] = $_POST['message'];
+            $pdata['contact_requested_on'] = date('Y-m-d H:i:s');
+            $this->api->add('tbl_contact_requests', $pdata);
+            redirect(base_url('contact-us'));
         }
-        $this->_home('gallery', $data);
+        $this->_home('contact-us');
     }
 }

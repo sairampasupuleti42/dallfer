@@ -10,15 +10,6 @@ class MY_Controller extends CI_Controller
         parent::__construct();
         $this->_REQ = $_POST + $_GET;
         $this->load->helper('common');
-        $this->load->model('Api_model', 'api', TRUE);
-        $this->load->library('Jwt');
-
-        if ($this->validRequest()) {
-            return;
-        } else {
-            echo json_encode(array("statusText" => "Unauthorized", "status" => 401));
-            exit;
-        }
     }
 
     function clean($text)
@@ -102,7 +93,7 @@ class MY_Controller extends CI_Controller
     public function _template($page_name = 'index', $data = array())
     {
         $this->load->view('admin/header', $this->header_data);
-        $this->load->view($page_name, $data);
+        $this->load->view('admin/'.$page_name, $data);
         $this->load->view('admin/footer');
     }
 
