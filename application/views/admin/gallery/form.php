@@ -38,13 +38,21 @@
                                             Gallery Name
                                         </label>
                                         <div class="col-sm-6">
+                                            <?php
+                                            if(!empty($gallery['gallery_id'])) {
+                                                ?>
+                                                <input type="hidden" name="gallery_slug"
+                                                       value="<?php echo !empty($gallery['gallery_slug']) ? $gallery['gallery_slug'] : ''; ?>"/>
+                                                <?php
+                                            }
+                                            ?>
                                             <input type="text" class="form-control input-sm required"
                                                    name="gallery_name"
                                                    placeholder="Enter Gallery Name"
                                                    value="<?php echo !empty($gallery['gallery_name']) ? $gallery['gallery_name'] : ''; ?>"/>
                                         </div>
                                     </div>
-                                </div>
+                                </div><!--
                                 <div class="col-sm-12 hide">
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label">
@@ -54,10 +62,10 @@
                                             <input type="text" class="form-control input-sm required"
                                                    name="gallery_slug"
                                                    placeholder="Enter Alias Gallery Name"
-                                                   value="<?php echo !empty($gallery['gallery_slug']) ? $gallery['gallery_slug'] : ''; ?>"/>
+                                                   value="<?php /*echo !empty($gallery['gallery_slug']) ? $gallery['gallery_slug'] : ''; */?>"/>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label">
@@ -84,7 +92,7 @@
                                 </div>-->
                                 <div class="col-sm-1 col-md-offset-11">
                                     <div class="form-group">
-                                        <button class="btn btn-success btn-lg">Save</button>
+                                        <button class="btn btn-success btn-sm">Save</button>
                                     </div>
                                 </div>
                             </form>
@@ -102,7 +110,7 @@
                                 <div class="col-md-2 col-sm-3 col-xs-6">
                                     <a class="zoom-gallery" href="<?php echo $image; ?>">
                                         <div class="img">
-                                            <img src="<?php echo $image; ?>"
+                                            <img src="<?php echo base_url().$image; ?>"
                                                  alt="<?php echo $gallery['gallery_name'] ?>" class="img-responsive"/>
                                         </div>
                                     </a>

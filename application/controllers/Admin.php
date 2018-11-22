@@ -119,7 +119,7 @@ class Admin extends MY_Controller
             redirect(base_url() . 'admin/dashboard');
         }
         $data['about'] = $this->api->getAbout();
-        $this->_admin('about/form', $data);
+        $this->_template('about/form', $data);
     }
     function posts($act = '', $str = '')
     {
@@ -155,7 +155,7 @@ class Admin extends MY_Controller
                 $_SESSION['message'] = "Post added successfully.";
                 redirect(base_url() . "admin/posts/");
             }
-            $this->_admin('posts/form', $data);
+            $this->_template('posts/form', $data);
         } elseif ($act == "edit") {
             $this->header_data['title'] = "Edit Post";
             $data = array();
@@ -178,7 +178,7 @@ class Admin extends MY_Controller
                 redirect(base_url() . 'admin/posts/');
             }
             $data['post'] = $this->api->getPostById($str);
-            $this->_admin('posts/form', $data);
+            $this->_template('posts/form', $data);
         } else {
             $this->header_data['title'] = " Posts";
             $search_data = array();
@@ -192,7 +192,7 @@ class Admin extends MY_Controller
             $this->pagenavi->process($this->api, 'searchPosts');
             $data['PAGING'] = $this->pagenavi->links_html;
             $data['posts'] = $this->pagenavi->items;
-            $this->_admin('posts/index', $data);
+            $this->_template('posts/index', $data);
         }
     }
     function gallery($act = '', $str = '')
@@ -200,7 +200,7 @@ class Admin extends MY_Controller
         $data = array();
         if (!empty($_GET['act']) && $_GET['act'] == "del" && !empty($_GET['gallery_id'])) {
             $gallery = $this->api->getGalleryById($_GET['gallery_id']);
-            @rmdir(FCPATH . $gallery['gallery_path'] . '/');
+            @rmdir(FCPATH . $gallery['gallery_path'].'/');
             $this->api->delGallery($_GET['gallery_id']);
             $_SESSION['message'] = "Gallery  Removed successfully.";
             redirect(base_url() . "admin/gallery/");
@@ -217,28 +217,31 @@ class Admin extends MY_Controller
             redirect(base_url() . "admin/gallery/");
         }
         if ($act == 'add') {
+            $this->header_data['title']="Add gallery";
             if (!empty($_POST['gallery_name'])) {
                 $pdata = [];
                 $pdata['gallery_name'] = !empty($_POST['gallery_name']) ? trim($_POST['gallery_name']) : "";
                 $pdata['gallery_slug'] = !empty($_POST['gallery_name']) ? slugify(trim($_POST['gallery_name'])) : "";
-                $last_id = $this->api->addGallery($pdata);
-                $folder = "/data/gallery/" . slugify($pdata['gallery_name']) . "-" . $last_id;
+                $pdata['created_on'] = date('Y-m-d H:i:s');
+                $last_id = $this->api->add('tbl_gallery',$pdata);
+                $folder = "data/uploads/gallery/" . slugify($pdata['gallery_name']) . "-" . $last_id;
                 createFolder($folder);
                 uploadFiles('/' . $folder . '/', 'images');
                 $this->api->updateGallery(["gallery_path" => $folder], $last_id);
                 $_SESSION['message'] = "Gallery added successfully.";
                 redirect(base_url() . "admin/gallery/");
             }
-            $this->_admin('gallery/form', $data);
+            $this->_template('gallery/form', $data);
         } else if ($act == 'edit') {
             if (!empty($_POST['gallery_id'])) {
                 $pdata = [];
+
                 $pdata['gallery_id'] = !empty($_POST['gallery_id']) ? trim($_POST['gallery_id']) : "";
                 $pdata['gallery_name'] = !empty($_POST['gallery_name']) ? trim($_POST['gallery_name']) : "";
-                $pdata['gallery_slug'] = !empty($_POST['gallery_slug']) ? slugify(trim($_POST['gallery_slug'])) : "";
+                $pdata['gallery_slug'] = !empty($_POST['gallery_slug']) ? $_POST['gallery_slug'] : "";
                 $this->api->updateGallery($pdata, $_POST['gallery_id']);
                 if (!empty($_FILES)) {
-                    $folder = "/data/gallery/" . str_replace(' ', '-', $pdata['gallery_name']) . "-" . $pdata['gallery_id'];
+                    $folder = "/data/uploads/gallery/" . str_replace(' ', '-', $pdata['gallery_name']) . "-" . $pdata['gallery_id'];
                     createFolder($folder);
                     uploadFiles('/' . $folder . '/', 'images');
                     $this->api->updateGallery(["gallery_path" => $folder], $pdata['gallery_id']);
@@ -246,6 +249,7 @@ class Admin extends MY_Controller
                 $_SESSION['message'] = "Gallery Updated successfully.";
                 redirect(base_url() . "admin/gallery/");
             }
+            $this->header_data['title']="Edit gallery";
             $data['gallery'] = $this->api->getGalleryById($str);
             $this->_template('gallery/form', $data);
         } else {
@@ -261,7 +265,7 @@ class Admin extends MY_Controller
             $this->pagenavi->process($this->api, 'searchGallery');
             $data['PAGING'] = $this->pagenavi->links_html;
             $data['galleries'] = $this->pagenavi->items;
-            $this->_admin('gallery/index', $data);
+            $this->_template('gallery/index', $data);
         }
     }
     public

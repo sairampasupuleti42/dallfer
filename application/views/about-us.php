@@ -1,12 +1,13 @@
-<div class="fh5co-section-gray">
+<div class="fh5co-section-gray pt-5">
     <div id="fh5co-features">
         <div class="container">
             <div class="row">
-                <div class="row">
-                    <div>
-                        <h1 align=center>About Us</h1>
-                    </div>
+                <div>
+                    <h1 align=center>About Us</h1>
                 </div>
+            </div>
+            <div class="row">
+
                 <div class="col-md-4">
                     <div class="feature-left">
 								<span class="icon">

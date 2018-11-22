@@ -21,8 +21,7 @@
 <!-- END fh5co-page -->
 </div>
 <!-- END fh5co-wrapper -->
-<!-- jQuery -->
-<script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
+
 <!-- jQuery Easing -->
 <script src="<?php echo base_url();?>assets/js/jquery.easing.1.3.js"></script>
 <!-- Bootstrap -->

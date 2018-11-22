@@ -149,12 +149,12 @@
 
                     </a>
                 </li>
-                <li>
-                    <a href="<?php echo base_url(); ?>admin/clients/">
+                <!--<li>
+                    <a href="<?php /*echo base_url(); */?>admin/clients/">
                         <i class="fa fa-group"></i> <span>Clients</span>
                     </a>
                 </li>
-
+-->
                 <li>
                     <a href="<?php echo base_url(); ?>admin/contacts/">
                         <i class="fa fa-pencil"></i> <span>Contacts</span>

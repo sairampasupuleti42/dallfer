@@ -1473,3 +1473,15 @@ figure {
 }
 
 /*# sourceMappingURL=style.css.map */
+.pt-5{
+  padding-top:2em;
+}
+.w-20per{
+  float: left;
+  width: 20%;
+  margin: 10px 10px;
+}
+.wh-200{
+  height: 220px;
+  width: 100%;
+}

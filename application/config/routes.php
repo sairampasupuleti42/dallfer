@@ -17,5 +17,6 @@ $route['projects/previous-events']='home/previous-events';
 
 $route['contact-us']='home/contact-us';
 $route['gallery']='home/gallery';
+$route['gallery/(:any)']='home/gallery/$1';
 
 $route['translate_uri_dashes'] = FALSE;

@@ -1,4 +1,4 @@
-<div id="fh5co-contact" class="animate-box">
+<div id="fh5co-contact " class="animate-box pt-5">
     <div class="container">
         <form id="contactForm" action="<?php echo base_url('contact-us/') ?>" method="post">
             <div class="row">

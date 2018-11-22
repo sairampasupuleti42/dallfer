@@ -1,4 +1,4 @@
-<div class="fh5co-section-gray">
+<div class="fh5co-section-gray pt-5">
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3 text-center heading-section animate-box">

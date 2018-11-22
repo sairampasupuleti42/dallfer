@@ -40,6 +40,8 @@
     <!--[if lt IE 9]>
     <script src="<?php echo base_url();?>assets/js/respond.min.js"></script>
     <![endif]-->
+    <!-- jQuery -->
+    <script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
 </head>
 <body>
 <div id="fh5co-wrapper">
@@ -55,9 +57,16 @@
                         <a href="#" class="grow"><i class="icon-facebook2"></i></a>
                         <a href="#" class="grow"><i class="icon-twitter2"></i></a>
                         <a href="#" class="grow"><i class="icon-instagram2"></i></a>
-                        <a href="<?php echo @$document['doc_path']?>" download="Dallfer-<?php echo date('d-m-Y');?>" class="grow">
-                            <i class="icon icon-download2"></i> Download Profile
-                        </a>
+                        <?php
+                        if(!empty($document['doc_path'])) {
+                            ?>
+                            <a href="<?php echo @$document['doc_path']; ?>"
+                               download="Dallfer-<?php echo date('d-m-Y'); ?>" class="grow">
+                                <i class="icon icon-download2"></i> Download Profile
+                            </a>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

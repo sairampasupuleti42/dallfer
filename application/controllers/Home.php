@@ -11,7 +11,9 @@ class Home extends MY_Controller
         parent::__construct();
         $this->load->model("DB", "api", TRUE);
         $this->documents = $this->api->searchDocuments();
-        $this->header_data['document'] = current($this->documents);
+        if(!empty($this->documents)) {
+            $this->header_data['document'] = current($this->documents);
+        }
     }
 
     public function index()
@@ -32,10 +34,32 @@ class Home extends MY_Controller
         $this->_home('clients');
     }
 
-    function gallery()
+    function gallery($str = '')
     {
-        $data = array();
-        $this->_home('gallery/index', $data);
+        if ($str != '') {
+            $data['gallery']=$this->api->getGalleryBySlug($str);
+            if(!empty($data['gallery'])) {
+                $this->_home('gallery/view', $data);
+            }else{
+                redirect(base_url('gallery'));
+            }
+        } else {
+            $data = array();
+            $this->header_data['title'] = " Gallery";
+            $search_data = array();
+            if (!empty($this->_REQ['key'])) {
+                $search_data['key'] = $this->_REQ['key'];
+            }
+            $this->load->library('Pagenavi');
+            $this->pagenavi->search_data = $search_data;
+            $this->pagenavi->per_page = 20;
+            $this->pagenavi->base_url = base_url() . 'admin/gallery/?';
+            $this->pagenavi->process($this->api, 'searchGallery');
+            $data['PAGING'] = $this->pagenavi->links_html;
+            $data['galleries'] = $this->pagenavi->items;
+
+            $this->_home('gallery/index', $data);
+        }
     }
 
     function upcoming_events()

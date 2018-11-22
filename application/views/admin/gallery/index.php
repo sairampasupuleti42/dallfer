@@ -45,11 +45,12 @@
                                                 foreach ($images as $image) {
                                                     if ($i == 0) {
                                                         $image = str_replace(FCPATH, '', $image);
+
                                                         ?>
 
                                                         <a href="<?php echo base_url('gallery/' . $gallery['gallery_slug'] . '/'); ?>">
 
-                                                            <img src="<?php echo $image ?>"
+                                                            <img src="<?php echo base_url().$image ?>"
                                                                  alt="<?php echo $gallery['gallery_name'] ?>"
                                                                  class="img-responsive" width="80"/>
 
@@ -84,6 +85,14 @@
                                         </tr>
                                         <?php $i++;
                                     }
+                                }else{
+                                    ?>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="text-center text-danger">No data found !</div>
+                                        </td>
+                                    </tr>
+                                <?php
                                 }
                                 ?>
                                 </tbody>

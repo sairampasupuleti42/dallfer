@@ -30,7 +30,8 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="well">
-                                    <form method="post" id="updoc" action="<?php echo base_url('admin/upload-profile'); ?>"
+                                    <form method="post" id="updoc"
+                                          action="<?php echo base_url('admin/upload-profile'); ?>"
                                           enctype="multipart/form-data">
                                         <input type="hidden" name="UP" value="TRUE"/>
                                         <div class="form-group">
@@ -57,20 +58,30 @@
                                     <tbody>
                                     <?php
                                     if (!empty($documents)) {
-                                        $i=1;
+                                        $i = 1;
                                         foreach ($documents as $doc) {
                                             ?>
                                             <tr>
                                                 <td><?php echo $i++; ?></td>
                                                 <td>
-                                                    <?php echo str_replace(base_url(),FCPATH,$doc['doc_path']);?>
-                                                    <a href="<?php echo @$doc['doc_path'];?>" download="Profile-<?php echo date('dmYhis')?>"><i class="fa fa-file-pdf-o fa-2x"></i> </a>
+                                                    <?php if (file_exists(str_replace(base_url(), FCPATH, $doc['doc_path']))) { ?>
+                                                        <a href="<?php echo @$doc['doc_path']; ?>"
+                                                           download="Profile-<?php echo date('dmYhis') ?>"><i
+                                                                    class="fa fa-file-pdf-o fa-2x text-success"></i> </a>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                        <i class="fa fa-file-pdf-o fa-2x text-danger" title="Document not found !"></i>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </td>
-                                                <td><?php echo date('d-m-Y',strtotime($doc['doc_created_on']))?></td>
-                                                <td> <a href="<?php echo base_url() ?>admin/upload-profile/?act=del&doc_id=<?php echo $doc['doc_id']; ?>"
-                                                        title='Delete'
-                                                        onclick="return window.confirm('Do You Want to Delete?');"
-                                                        class="btn btn-sm btn-default"><i
+                                                <td><?php echo date('d-m-Y', strtotime($doc['doc_created_on'])) ?></td>
+                                                <td>
+                                                    <a href="<?php echo base_url() ?>admin/upload-profile/?act=del&doc_id=<?php echo $doc['doc_id']; ?>"
+                                                       title='Delete'
+                                                       onclick="return window.confirm('Do You Want to Delete?');"
+                                                       class="btn btn-sm btn-default"><i
                                                                 class="fa fa-trash text-danger"></i></a></td>
                                             </tr>
                                             <?php
